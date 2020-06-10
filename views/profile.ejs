@@ -1,0 +1,87 @@
+<%- include("partials/header") %>
+
+<header>
+	<div class="top_element">
+		Welcome to dashboard <%=user.username%>		
+	</div>
+</header>
+
+<!--Created Events-->
+
+<div id="created_events">
+	<span id="header">Created events</span>
+	<ol>
+	<%user.owner.forEach(function(elem){%>
+		<li><a href="/events/<%=elem._id%>"><%=elem.name%></a>
+			<ul>
+				<%elem.pendingRequests.forEach(function(child){%>
+				<li><%=child.name%>
+					<button><a href="/events/<%=elem._id%>/acceptance_form/<%=child.id%>">Accept</a></button>
+					<button><a href="/events/<%=elem._id%>/removal_form/<%=child.id%>">Reject</a></button>
+				</li>
+				<%})%>
+			</ul>
+		</li>
+	<%})%>
+	</ol>	
+</div>
+
+<!--Committed Events-->
+
+<div id="created_events">
+	<span id="header">Committed Events</span>
+	<div>
+		<ol>
+		<%user.invited.forEach(function(elem){%>
+			<li><%=elem.name%> which has a footfall of <%=elem.count%> and counting</li>
+		<%})%>
+		</ol>
+	</div>
+</div>
+
+<!--Waiting List-->
+
+<div id="created_events">
+	<span id="header">Waiting List</span>
+	<ol>
+	<%allEvents.forEach(function(event){
+		event.pendingRequests.forEach(function(elem){
+				if(elem.id.equals(currentUser._id)){ %>
+				<li><%=event.name%></li>
+	<%  		}
+	})
+	}) %>
+	</ol>
+</div>
+
+<!--New Invites -->
+
+<div id="created_events">
+	<span id="header">New Invites</span>
+	<ol>
+		<%user.receivedInvites.forEach(function(elem){%>
+		<li>
+			View Event : 
+			<a href="/events/<%=elem.id%>"><%=elem.eventName%></a>
+			Organised By <%=elem.eventOwner%>
+			<ul>
+				<li>
+					<form style="display:inline"  action="/events/<%=elem.id%>/events_invite_form_accept/<%=currentUser._id%>" method="POST">
+						<input type="number" name="count" min="1" value="1" required style="width:50px">
+						<button>
+							Accept
+						</button>	
+					</form>
+					<form style="display:inline" action="/events/<%=elem.id%>/events_invite_form_reject/<%=currentUser._id%>" method="POST">
+						<button>
+							Reject
+						</button>	
+					</form>
+				</li>
+			</ul>
+		</li>       
+		<%})%>
+	</ol>	
+</div>
+
+<%- include("partials/footer") %>

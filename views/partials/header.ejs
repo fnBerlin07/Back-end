@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Events Listing Website</title>
+		<link href="../../../stylesheets/main.css" rel="stylesheet" type="text/css">
+		<link href="../../../stylesheets/form-page.css" rel="stylesheet" type="text/css">		
+	</head>
+	<body>
+		
+	<header class='navbar'>
+		<div class="grid-container">
+			<div class="brand">
+				<a href="/">D-Event</a>
+			</div>
+			<div class="items">
+			<%	if(!currentUser){ %> 
+				<span class="item1"><a href="/login">Login</a></span>
+				<span class="item3"><a href="/register">Register</a></span>
+			<% }else{ %>
+				<span class="item1"><a href="/user/<%=currentUser.id%>">Now as <%=currentUser.username%></a></span>      
+				<span class="item3"><a href="/user/<%=currentUser.id%>/notifications">Notifications:<%=currentUser.newNotifications%></a></span>
+				<span class="item2"><a href="/logout">Logout</a></span>
+			<%	}  %>	
+			</div>
+		</div>
+	</header>
+		
+	<div class="alert">
+		<%if( error && error.length>0 ){%>
+			<span class="alert_item"><%=error%></span>
+		<%}%>
+		<%if( success && success.length>0 ){%>
+			<span class="alert_item"><%=success%></span>
+		<%}%>
+	</div>

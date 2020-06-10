@@ -1,0 +1,111 @@
+<%- include("partials/header.ejs") %>
+<style>
+	body{
+	background: url(https://images.pexels.com/photos/169211/pexels-photo-169211.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) no-repeat center center fixed;
+  background-size: cover;
+	}
+</style>
+
+
+<div class="new_event">
+	Creating new event <br>	Organised by <%=currentUser.username%>
+</div> 
+
+<%
+	var x = new Date();
+	var dateStr;
+	dateStr = (x.getFullYear()).toString();
+	if(x.getMonth()+1<10){
+		dateStr += "-0" + (x.getMonth()+1).toString(); 
+	}else{
+		dateStr += "-" + (x.getMonth()+1).toString(); 
+	}
+	if(x.getDate()<10){
+		dateStr += "-0" + (x.getDate()).toString(); 
+	}
+	else{
+		dateStr += "-" + (x.getDate()).toString(); 	   
+	}  
+%>
+
+<form class="regi_container" action="/events" method="POST">
+	
+		<div class="event-item">
+			<input class="event_regi" required type="text" name="events[name]" placeholder="Event Name">
+	    </div>
+	   
+		<div class="event-item">
+			<input class="event_regi" required type="url" name="events[image]" placeholder="Event image url">
+			
+	    </div>
+	
+		<div class="event-item">
+			<textarea class="event_regi" style="height:300px" name="events[description]" style="resize:none;" placeholder="Event description"></textarea>
+			
+	    </div>
+	
+		<div class="event-item">
+			<textarea class="event_regi" required name="events[venue]" style="resize:none;" placeholder="Event venue"></textarea>
+	    </div>
+	
+	    <div class="event-item">
+			<input required type="date" name="events[date]" min="<%=dateStr%>" value="<%=dateStr%>">
+			<input style="width:150px" required type="time" name="events[time]" value="20:00">	
+			<select style="width:90px" name="events[type]">
+				<option value="public">public</option>
+				<option value="private">private</option>
+			</select>	
+	    </div>
+
+	<br>
+	
+	<div class="invite_card_container">
+		<div class="text-panel">
+		<div>
+			<label for="color">Background-Color:</label>
+			<input type="color" name="events[invitationCard][background]" id="color">
+		</div>
+		
+		<div>
+			<label for="font-family">Font-Family:</label>	
+			<input type="text" name="events[invitationCard][font_family]" id="font-family" placeholder="Use Css Supported fonts">
+		</div>
+		<div>
+			<label for="font-color">Font-Color:</label>
+			<input type="color" name="events[invitationCard][color]" id="font-color">	
+		</div>
+		<div>
+			<label for="font-size">Font-Size:</label>
+			<input type="number" name="events[invitationCard][font_size]" min="10" max="30" value="18" id="font-size">px	
+		</div>	
+		<input type="button" value="MAKE THE CHANGES" id="submitColor"><br>	
+	</div>
+		<textarea style="font-size:18px;background-color:black;"id="invitationCard" class="invite_card" required name="events[invitationCard][text]" placeholder="Create an Awesome invitation"></textarea>	
+	</div>
+	
+	<input style="background-color:skyblue;border:2px solid grey; margin:20px 0;display:block;width:300px;cursor:pointer" type="submit">
+</form>
+
+
+	   
+
+<script>
+	
+	var area  	    = document.querySelector("#invitationCard");
+	var submitColor = document.querySelector("#submitColor");
+	
+	submitColor.addEventListener("click",function(){
+	var color       = document.querySelector("#color").value;
+	var font 	    = document.querySelector("#font-family").value;
+	var fontColor   = document.querySelector("#font-color").value;	
+	var fontSize   = document.querySelector("#font-size").value;		
+	
+		area.style.backgroundColor = color;
+		area.style.fontFamily      = font;
+		area.style.color  	       = fontColor;
+		area.style.fontSize        = fontSize.toString()+"px";
+	})
+	
+</script>
+
+<%- include('partials/footer.ejs') %>

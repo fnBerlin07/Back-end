@@ -1,0 +1,45 @@
+<%- include("partials/header") %>
+
+<h1>
+	Invite Creation Form 
+	Owner : <%=event.owner.username%>
+</h1>
+
+<form action="/events/<%=event._id%>/req_sent_form" method="POST">
+	<select name="username">
+	<%users.forEach(function(user){ %>
+	<%  var flag=0;
+		user.invited.forEach(function(e_id){	
+			if(e_id.equals(event._id)){
+				flag=1;
+			}
+		})
+		user.receivedInvites.forEach(function(elem){
+			if(elem.id.equals(event._id)){
+				flag=1;
+			}
+		})
+		event.pendingRequests.forEach(function(elem){
+			if(elem.id.equals(user._id)){
+				flag=1;
+			}
+		})
+		if(flag==0 && (currentUser.username!=user.username)){ %>
+			<option value="<%=user.username%>"><%=user.username%></option>
+    <% }}) %>	
+	</select>
+	<button>
+		Submit
+	</button>
+</form>
+
+<p>
+You have either invited all the users or they are not yet in our domain.<br>
+Let them know you want them to join D-Event by sharing this link to them.<br>
+</p>
+
+<button>
+	<a href="/events">Go back to events page</a>
+</button>
+
+<%- include("partials/footer") %>

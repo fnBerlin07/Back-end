@@ -1,0 +1,137 @@
+<%- include("partials/header") %>
+
+<h1 style="text-align:center">
+	Check out D Event!
+</h1>
+	
+<div class="show_event">
+	<div class="title_event">
+		<div>
+			<%=event.name%>	
+		</div>
+		<div>
+		    Organised by <%=event.owner.username%>	
+		</div>
+		<div>
+			<%=event.date.toDateString()%> at <%=event.time%>	
+		</div>
+		<div>
+			<%if(!currentUser){%>
+			<span ><button>
+				<a href='/login'>Request an Invitation!</a>
+			</button></span>
+			<% } 
+			else if(currentUser && !event.owner.equals(currentUser._id)){ 
+				var flag = 0;
+				currentUser.invited.forEach(function(id){
+					if(id.equals(event._id)){
+					 	flag = 1;
+					 }
+				})
+				event.pendingRequests.forEach(function(elem){
+					if(elem.id.equals(currentUser._id)){
+						flag = -1;
+					}
+				})
+				currentUser.receivedInvites.forEach(function(elem){
+					if(elem.id.equals(event._id)){
+						flag = 2;
+				}
+				})	
+				if(flag==1){ %>
+					<span><button disabled>
+					You are Already Invited
+					</button></span>	
+				<%}
+				else if (flag==2){ %>
+					<span><button>
+						<a href="/user/<%=currentUser._id%>">You have an received an invite, Review it in the dashboard.</a>
+					</button></span>
+				<% }
+			    else if(flag==-1){ %>
+					<span><button disabled>
+					You have sent a request!Please wait till the Host accepts it.
+					</button></span>	
+				<% }
+				else{%>
+				<form action="/events/<%=event._id%>/requests" method="POST">
+					<%if(event.type.toLowerCase()=="public"){%>
+					<input type="number" min="1" value="1" name="count" required>
+					<button>
+						Join this event?Its Open!!!
+					</button>
+					<%}else{%>
+					<button>
+						Request an invitation for One!
+					</button>
+				</form>
+				<%}}
+			} 
+			else{ %>
+			<button style="margin:10px 0;">
+				<a href='/events/<%=event._id%>/events_invite_form'>Send invitations</a>
+			</button>
+			<button style="margin:10px 0;">
+				<a href="/events/<%=event._id%>/edit/">Edit</a>	
+			</button>
+			<form action="/events/<%=event._id%>?_method=DELETE" method="POST">
+			<button style="margin:10px 0;">
+				Delete
+			</button>
+			</form>
+			<%}%>
+		</div>
+	</div>
+	<div class="image_event">
+		<img src="<%=event.image%>" width="400px" height="400px">
+	</div>
+	<div class="details_event">
+		About....
+			<div><%-event.description%></div><br>
+			<div>Find it at <%=event.venue%></div><br>
+			<div>Hosted as <%=event.type%></div><br>
+			<div>Footfall aprox to <%=event.count%> and counting</div>
+	</div>
+</div>	
+
+	
+	
+<div>
+		<%if(currentUser && !event.owner.equals(currentUser._id)){ 
+			var flag = 0;
+			currentUser.invited.forEach(function(id){
+				if(id.equals(event._id)){
+					flag = 1;
+				 }
+			})
+			currentUser.receivedInvites.forEach(function(elem){
+				if(elem.id.equals(event._id)){
+					flag = 2;
+			}
+			})	
+			if(flag==1){ %>
+			<div class="invitation_display">
+				<textarea class="card_text" style="resize:none;width:400px;height:500px;background-color:<%=event.invitationCard.background%>;font-family:<%=event.invitationCard.font_family%>;color:<%=event.invitationCard.color%>;font-size:<%=event.invitationCard.font_size%>px;"><%-event.invitationCard.text%></textarea>
+			</div>
+			<%}
+			else if (flag==2){ %>
+			<div class="invitation_display">
+				<textarea class="card_text" style="resize:none;width:400px;height:500px;background-color:<%=event.invitationCard.background%>;font-family:<%=event.invitationCard.font_family%>;color:<%=event.invitationCard.color%>;font-size:<%=event.invitationCard.font_size%>px;"><%-event.invitationCard.text%></textarea>
+			</div>
+			<% }
+	}%>
+</div>
+
+
+<div style="display:block;text-align:center;">
+	PEOPLE COMMITTED TO :<%=event.name%>
+	<%event.invitees.forEach(function(elem){ %>
+	<div><%=elem.name%></div>	
+	<%})%>
+	<%event.pendingRequests.forEach(function(elem){ %>
+		<div><%=elem.name%></div>
+	<%})%>
+</div>
+		
+
+<%- include("partials/footer") %>

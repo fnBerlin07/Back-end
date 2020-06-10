@@ -1,0 +1,66 @@
+<%- include("partials/header.ejs") %>
+
+<style>
+	body{
+	background: url(https://images.pexels.com/photos/169211/pexels-photo-169211.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) no-repeat center center fixed;
+  background-size: cover;
+	}
+</style>
+
+<div class="new_event">
+	Editting <%=event.name%> <br> Organised by <%=currentUser.username%>
+</div> 
+
+<form class="regi_container" action="/events/<%=event._id%>?_method=PUT" method="POST">
+	
+		<div class="event-item">
+			<input class="event_regi" disabled type="text" value="<%=event.name%>" name="events[name]" >
+	    </div>
+	   
+		<div class="event-item">
+			<input class="event_regi" required type="url" name="events[image]"  value="<%=event.image%>">
+			
+	    </div>
+	
+		<div class="event-item">
+			<textarea class="event_regi" name="events[description]" style="resize:none;"><%=event.description%></textarea>
+			
+	    </div>
+	
+		<div class="event-item">
+			<textarea class="event_regi" required name="events[venue]" style="resize:none;"><%=event.venue%></textarea>
+	    </div>
+	
+	    <div class="event-item">
+			<input required type="date" name="events[date]" min="2020-06-03">
+			<input style="width:150px" required type="time" name="events[time]">	
+			<select style="width:90px" name="events[type]">
+				<option value="public">public</option>
+				<option value="private">private</option>
+			</select>	
+	    </div>
+
+	<input type="submit">
+</form>
+
+
+	   
+
+<script>
+	var area  	    = document.querySelector("#invitationCard");
+	var submitColor = document.querySelector("#submitColor");
+	
+	submitColor.addEventListener("click",function(){
+	var color       = document.querySelector("#color").value;
+	var font 	    = document.querySelector("#font-family").value;
+	var fontColor   = document.querySelector("#font-color").value;	
+	var fontSize   = document.querySelector("#font-size").value;		
+	
+		area.style.backgroundColor = color;
+		area.style.fontFamily      = font;
+		area.style.color  	       = fontColor;
+		area.style.fontSize        = fontSize.toString()+"px";
+	})
+</script>
+
+<%- include('partials/footer.ejs') %>

@@ -1,0 +1,35 @@
+<%- include("partials/header.ejs") %>
+
+<div class="page_header">
+	Want to add an event?
+	<button>
+		<a style="text-decoration:none;color:black;" href="/events/new">Add a new event</a>
+	</button>
+</div>
+
+<div class="allevents_container">
+	<% events.forEach(function(event){%>
+	<div class="event_card">
+		<div class="event_image">
+			<img src="<%=event.image%>" height=320px width=430px>
+		</div>
+		<div class="event_caption">
+			<p>
+				<b><u><%=event.name%></u></b>
+			</p>
+			<p>
+				<%-event.description.substring(0,50)%>...	
+			</p>
+			<p>
+			<button>
+				<a href="/events/<%=event._id%>">View More</a>
+			</button>
+			</p>
+
+		</div>
+	</div>
+	<%})%>
+</div>
+
+
+<%- include("partials/footer.ejs") %>

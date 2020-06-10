@@ -1,0 +1,33 @@
+<%- include("partials/header.ejs") %>
+
+<div class="notifications">
+	<div class="notifications_area">
+		<h3>
+			New Notifications
+		</h3>
+	<%var i ;
+		if(user.newNotifications){ %>
+			<form action="/user/<%=user._id%>/notifications" method="POST">
+				<button>
+					Mark as Read!	
+				</button>
+			</form>
+			<%for(i = user.notifications.length-1 ; i>=user.notifications.length-user.newNotifications ; i--){ %>
+			<li><%=user.notifications[i]%></li>
+		<%}
+		}else{%>
+			---
+		<%	i = user.notifications.length-1 ;
+		}%>
+	</div>
+	<div class="notifications_area">	
+		<h3>
+			Old Notifications
+		</h3>
+	<%for(;i>=0;i--){%>
+		<li><%=user.notifications[i]%></li>
+	<%}%>
+	</div>
+</div>
+
+<%- include("partials/footer.ejs") %>

@@ -1,0 +1,33 @@
+<%- include("./partials/header.ejs") %>
+
+<style>
+	body{
+	background: url(https://images.pexels.com/photos/169211/pexels-photo-169211.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) no-repeat center center fixed;
+  background-size: cover;
+	}
+</style>
+
+
+<div>
+	<h1 class="form_name">
+		Login
+	</h1>
+	<form action="/login" class="register_form" method="POST">
+		<div>
+			<label for="username">Username</label>
+			<input class="form_item" type="text" placeholder="username" name="username">
+		</div>
+		<div>
+			<label for="username">Password</label>
+			<input class="form_item" type="password" placeholder="password" name="password">
+		</div>
+		<div>
+			<button class="form_item">
+				Click to submit!
+			</button>
+		</div>	
+	</form>	
+</div>
+
+
+<%- include("./partials/footer.ejs") %>
